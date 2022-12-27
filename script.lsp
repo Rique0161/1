@@ -68,19 +68,24 @@
 		(setq PL (ssname plines cont))
 		
 		(setq startpoint (getpropertyvalue PL "startpoint"))
+		;(print startpoint)
 		
 		(setq x (rtos (nth 0 startpoint)))
 		(setq y (rtos (nth 1 startpoint)))
 		(setq z (rtos (nth 2 startpoint)))
 		(setq startpoint (strcat x ", " y ", " z))
+		;(print startpoint)
 		
 		;-------------------------------------------------------
 		
 		(setq endpoint (getpropertyvalue PL "endpoint"))
+		;(print endpoint)
+		
 		(setq x (rtos (nth 0 endpoint)))
 		(setq y (rtos (nth 1 endpoint)))
 		(setq z (rtos (nth 2 endpoint)))
 		(setq endpoint (strcat x ", " y ", " z))
+		;(print endpoint)
 		
 		(setq handle (getpropertyvalue PL "handle"))
 
@@ -104,6 +109,7 @@
 	)	
 	
 	(setq listalength (length lista))
+	(print listalength)
 	(setq contex 0)
 	
 	(while (< cont2 listalength)
@@ -142,7 +148,7 @@
 			;(setq cl2 (rtos (nth 1 comp)))
 			;(setq comp1 (strcat cl1 " " cl2))
 			
-		;(setq con (strcat (rtos cont3) ": " start1 " " comp1))
+		    (setq con (strcat (rtos cont3) ": " start " " comp))
 			;(print con)
 			
 			
@@ -157,7 +163,8 @@
 			;(print (strcat handlestart " diferente de " handlecomp))
 			
 				;(setq pc (nth 0 start))
-
+				;(print start)
+				;(print comp)
 				(setq se (member start grupo))
 				;(print se)
 				(if (/= se nil) (setq contadorfixo (+ contadorfixo 1)))
@@ -175,7 +182,7 @@
 							(write-line con edit)
 							(close edit)
 					
-						(if (= start1 comp1)
+						(if (= start comp)
 						(progn
 						;(print strcat start " = " comp)
 						;(print con)
@@ -183,7 +190,7 @@
 						
 							
 							;(print "if")
-							(print grupo)
+							;(print grupo)
 							;(print "----------------")
 						)
 						)
