@@ -1,27 +1,27 @@
 (defun c:as()
 
+
+(defun texto()
+	
+		(setvar "clayer" "CN")
+
+		(command "mtext" start "h" "1" "" condicao "")
+
+		(princ)
+					
+)
+
+
+
+
+
 (setvar "cmdecho" 0)
 (vl-load-com)
-
-
-(setq arq1 "C:\\Users\\CALCULISTA4\\Desktop\\projeto_completo\\1\\analise_de_dados-senao.txt")
-(setq edit (open arq1 "w"))
-(close edit)
-
-(setq arq2 "C:\\Users\\CALCULISTA4\\Desktop\\projeto_completo\\1\\analise_de_dados-grupo.txt")
-(setq edit (open arq2 "w"))
-(close edit)
-
-
-
 (setq todaspolylines (ssget "X" '((0 . "LWPOLYLINE"))))
-
 (setq contadordex 0)
 (setq contadordey 0)
 (setq plines (ssadd))
-
 (setq pllength (sslength todaspolylines))
-
 
 	(while (< contadordex pllength)
 
@@ -42,29 +42,32 @@
 		
 		(setq contadordex (+ contadordex 1))
 	)
+	
 (setq pllength (sslength plines))
 
 
-;(print pllength)
-
-
 (setq grupo (list))
+(setq grupoexemplo (list))
 
 	(setq cont 0)
 	(setq cont2 0)
 	(setq cont3 0)
-	(setq cont4 0)
+	
+	
 	(setq teste 0)
 	(setq contadorfixo 1)
 	
 	
 	(setq lista (list))
 	(setq lista2 (list))
+	(setq listaenames (list))
+	(setq listaenames2(list))
+	(setq listastartpoint (list))
+	(setq listaendpoint (list))
+
 	
 	(while (< cont pllength)
 	
-	
-		
 		(setq PL (ssname plines cont))
 		
 		(setq startpoint (getpropertyvalue PL "startpoint"))
@@ -88,12 +91,24 @@
 		;(print endpoint)
 		
 		(setq handle (getpropertyvalue PL "handle"))
+		
+		(setq listastartpoint (cons startpoint listastartpoint))
+		(setq listaendpoint (cons endpoint listaendpoint))
 
 		(setq lista2 (cons handle lista2))
 		(setq lista2 (cons handle lista2))
 		
 		(setq lista (cons startpoint lista))
 		(setq lista (cons endpoint lista))
+		
+		(setq listaenames (cons pl listaenames))
+		(setq listaenames (cons pl listaenames))
+		
+		(setq listaenames2 (cons pl listaenames2))
+		
+		(setq listaenames2length (length listaenames2))
+		;(setq lista2length (length lista2))
+		;(if (= listaenameslength (/ lista2length 2)) (print "ok")(print "n"))
 		
 		;(print lista)
 		;(print lista2)
@@ -108,8 +123,16 @@
 		
 	)	
 	
+	
+	(setq primeirocontador 0)
+	(setq segundocontador 0)
+	
+	
+	
+	
+	
 	(setq listalength (length lista))
-	(print listalength)
+	;(print listalength)
 	(setq contex 0)
 	
 	(while (< cont2 listalength)
@@ -118,82 +141,167 @@
 
 
 		(setq start (nth cont2 lista))
-		;(setq s2 (nth  (+ contex 1) lista))
-		;(setq s3 (nth  (+ contex 2) lista))
-		;(setq start (strcat s1 " " s2 " " s3))
-		;(print start)
 		
-
-		(setq handlestart (nth cont2 lista2))
+		(setq contadorsla 0)
+		(setq enamestart (nth cont2 listaenames))
 
 		(while (< cont3 listalength)
 		
-		
+			(setq contv 0)
 		
 		
 			;(setq comp (nth cont3 lista))
 			
 			(setq comp (nth cont3 lista))
-			;(setq c2 (nth  (+ cont3 1) lista))
-			;(setq c3 (nth  (+ cont3 2) lista))
-			;(setq start (strcat s1 " " s2 " " s3))
-				;(print cont3)			
-			(setq handlecomp (nth cont3 lista2))
 			
+			(setq enamecomp (nth cont3 listaenames))
 			
-			;(setq sl1 (rtos (nth 0 start)))
-			;(setq sl2 (rtos (nth 1 start)))
-			;(setq start1 (strcat sl1 " " sl2))
-			;(setq cl1 (rtos (nth 0 comp)))
-			;(setq cl2 (rtos (nth 1 comp)))
-			;(setq comp1 (strcat cl1 " " cl2))
 			
 		    (setq con (strcat (rtos cont3) ": " start " " comp))
-			;(print con)
-			
-			
-			;(setq edit (open arq "a"))
-			;(write-line con edit)
-			;(close edit)
 			
 			
 			
-			(if (/= handlestart handlecomp)
+			(if (/= enamestart enamecomp)
 			(progn
 			;(print (strcat handlestart " diferente de " handlecomp))
-			
-				;(setq pc (nth 0 start))
-				;(print start)
-				;(print comp)
+	
 				(setq se (member start grupo))
-				;(print se)
-				(if (/= se nil) (setq contadorfixo (+ contadorfixo 1)))
-				;(print "contador fixo")
-				;(print contadorfixo)
+
 				
 
 				;(print con)
 
 				
 				
-				(if (= se nil)
+				(if (= start comp)
 					(progn
-							(setq edit (open arq1 "a"))
-							(write-line con edit)
-							(close edit)
-					
-						(if (= start comp)
-						(progn
-						;(print strcat start " = " comp)
-						;(print con)
-							(setq grupo (cons start grupo))
 						
+						(if (= se nil)
+						(progn
+
+							(setq grupo (cons start grupo))
 							
-							;(print "if")
-							;(print grupo)
-							;(print "----------------")
+							
+
 						)
 						)
+						
+						(setq contv 0)
+							
+							(while (< contv listaenames2length)
+							
+								(setq enamec (nth contv listaenames2))
+								
+								(if (= enamestart enamec)
+								(progn
+									
+									(setq starts (getpropertyvalue enamestart "startpoint"))
+									(setq ends (getpropertyvalue enamestart "endpoint"))
+									(setq startc (getpropertyvalue enamecomp "startpoint"))
+									(setq endc (getpropertyvalue enamecomp "endpoint"))
+									
+									(print starts)
+									(print ends)
+									(print startc)
+									(print endc)
+									
+									;(if (= ends startc)(print "ok"))
+									
+									(cond
+										((= (strcat (rtos (nth 0 starts)) (rtos(nth 1 starts))) (strcat (rtos (nth 0 endc)) (rtos(nth 1 endc))))
+										(progn
+											(command "dimang" "" starts ends startc "0" "")
+											(setq dang (entlast))
+											(setq obj (vlax-ename->vla-object dang))
+											(setq rad (vlax-get-property obj 'Measurement))
+											(setq angulo (angtos rad 0))
+											;(print angulo)
+											(entdel dang)
+										)
+										)
+										
+										((= (strcat (rtos (nth 0 ends)) (rtos(nth 1 ends))) (strcat (rtos (nth 0 endc)) (rtos(nth 1 endc))))
+										(progn
+											(command "dimang" "" ends starts startc "0" "")
+											(setq dang (entlast))
+											(setq obj (vlax-ename->vla-object dang))
+											(setq rad (vlax-get-property obj 'Measurement))
+											(setq angulo (angtos rad 0))
+											;(print angulo)
+											(entdel dang)
+										)
+										)
+										
+										((= (strcat (rtos (nth 0 ends)) (rtos(nth 1 ends))) (strcat (rtos (nth 0 startc)) (rtos(nth 1 startc))))
+										(progn
+											(command "dimang" "" startc starts endc "0" "")
+											(setq dang (entlast))
+											(setq obj (vlax-ename->vla-object dang))
+											(setq rad (vlax-get-property obj 'Measurement))
+											(setq angulo (angtos rad 0))
+											;(print angulo)
+											(entdel dang)
+										)
+										)
+										
+										((= (strcat (rtos (nth 0 starts)) (rtos(nth 1 starts))) (strcat (rtos (nth 0 startc)) (rtos(nth 1 startc)))) 
+										(progn
+											(command "dimang" "" starts ends endc "0" "")
+											(setq dang (entlast))
+											(setq obj (vlax-ename->vla-object dang))
+											(setq rad (vlax-get-property obj 'Measurement))
+											(setq angulo (angtos rad 0))
+											;(print angulo)
+											(entdel dang)
+										)
+										)
+									)
+									
+									(cond
+										((= (atoi angulo) 180)
+										(progn
+										
+										(setq condicao "reducao")
+										
+										)
+										)
+										((/= (atoi angulo) 180)
+										(progn
+										
+										(setq condicao "curva")
+										
+										)
+										)
+									)
+									;(print condicao)
+									
+									;(print enamestart)
+									;(print starts)
+									;(print ends)
+									;(print enamecomp)
+									;(print startc)
+									;(print endc)
+
+								
+								))
+								
+								
+								
+								(setq contv (+ contv 1))
+								
+							)
+						
+						
+						
+						(setq listaenameslength (length listaenames))
+						
+						(setq listalength (length lista))
+
+						(setq contadorsla (+ contadorsla 1))
+						
+						
+						;(print contadorsla)
+						
 					)
 				)
 
@@ -203,9 +311,31 @@
 			)
 		
 		
+			
+		
 			(setq cont3 (+ cont3 1))
 			
 		)
+		
+		(cond
+			((= contadorsla 1)
+				(progn
+					
+					
+					;(funcaodefinicao)
+					(texto)
+					
+				)
+			)
+			((= contadorsla 2)
+				(progn
+					(setq condicao "te") 
+					(texto)
+				)
+			)
+		)
+		
+		
 		
 		(setq cont2 (+ cont2 1))
 		(setq contex (+ contex 3))
@@ -214,80 +344,20 @@
 	
 	(setq grupolength (length grupo))
 	
-	;(setq grupo2 (list))
-	;(setq cont 0)
-	;(while (< cont grupolength)
-		
-	;	(setq ent (nth cont grupo))
-	;	(print ent)
-	;	(setq se (member ent grupo2))
-	;	(print se)
-		
-	;	(if (= se nil)
-	;	(progn
-	;		(setq grupo2 (cons ent grupo2))
-	;		(print grupo2)
-	;		(setq grupo2length (length grupo2))
-	;		(print grupo2length)
-	;	)
-	;	)
-	;	(setq cont (+ cont 1))
-		
-	;)
+	
+	(setq contadorderepeticoes 0)
+	(setq segundogrupoexemplo (list))
+	(setq grupoexemplolength (length grupoexemplo))
 
 
 
 	
-	(defun texto()
-
-		(setq teste1 1)
-
-		;(print grupo)
-		
-		(repeat grupolength
-			
-			(setq p1 (nth cont4 grupo))
-			;(setq t1 (rtos (nth 0 p1) 2 12))
-			;(setq t2 (rtos (nth 1 p1) 2 12))
-			;(setq t3 (rtos (nth 2 p1) 2 12))
-			;(setq stri (strcat t1 ", " t2 ", " t3))
-			;(print stri)
-			(command "mtext" p1 "h" "2" "" (rtos teste1) "")
-			;(print cont4)
-			
-			(setq cont4 (+ cont4 1))
-			
-			(princ)
-		
-			
-		
-			
-			
-			(setq teste1 (+ teste1 1))
-			
-			
-
-		
-		)
-	)
-	
-	(texto)
-	
-	(defun sla()
-		(setq cont 0)
-		(setq grupolength (length grupo))
-		(while (< cont grupolength)
-			(setq ent (nth cont grupo))
-			(setq x (rtos (nth 0 ent)) y (rtos (nth 1 ent)))
-
-			(setq edit (open arq2 "a"))
-			(write-line (strcat (rtos (+ cont 1)) ": " x ", " y) edit)
-			(close edit)
-			(setq cont (+ cont 1))
-			
-		)
-	)
 		
 
 (princ)
 )
+
+;(defun c:carr()
+;(load "C:\\Users\\CALCULISTA4\\Desktop\\projeto_completo\\1\\script.lsp"))
+;(defun c:carregadeleta()
+;(load "C:\\Users\\CALCULISTA4\\Desktop\\projeto_completo\\1\\deleta.lsp"))

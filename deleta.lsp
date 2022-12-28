@@ -1,5 +1,5 @@
 (defun c:deleta()
-	(setq TEXTOS (ssget "X" '((0 . "MTEXT"))))
+	(setq TEXTOS (ssget "X" '((8 . "cn"))))
 	
 	
 	(setq LENGTH-TEXT (sslength TEXTOS))
