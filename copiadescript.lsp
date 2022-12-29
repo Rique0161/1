@@ -447,6 +447,6 @@
 )
 
 ;(defun c:carr()
-;(load "C:\\Users\\CALCULISTA4\\Desktop\\projeto_completo\\1\\script.lsp"))
+;(load "C:\\Users\\CALCULISTA4\\Desktop\\projeto_completo\\1\\copiadescript.lsp"))
 ;(defun c:carregadeleta()
 ;(load "C:\\Users\\CALCULISTA4\\Desktop\\projeto_completo\\1\\deleta.lsp"))
