@@ -8,7 +8,7 @@
 		(command "mtext" ve "h" "1" "" condicao "")
 
 		(princ)
-					
+	
 )
 
 
@@ -19,7 +19,6 @@
 (vl-load-com)
 (setq todaspolylines (ssget "X" '((0 . "LWPOLYLINE"))))
 (setq contadordex 0)
-(setq contadordey 0)
 (setq plines (ssadd))
 (setq pllength (sslength todaspolylines))
 
@@ -47,19 +46,16 @@
 
 
 (setq grupo (list))
-(setq grupoexemplo (list))
+(setq grupoenames (list))
+
+(setq grupoi (list))
 
 	(setq cont 0)
 	(setq cont2 0)
 	(setq cont3 0)
-	
-	
-	(setq teste 0)
-	(setq contadorfixo 1)
-	
+		
 	
 	(setq lista (list))
-	(setq lista2 (list))
 	(setq listaenames (list))
 	(setq listaenames2(list))
 	(setq listastartpoint (list))
@@ -95,9 +91,6 @@
 		(setq listastartpoint (cons startpoint listastartpoint))
 		(setq listaendpoint (cons endpoint listaendpoint))
 
-		(setq lista2 (cons handle lista2))
-		(setq lista2 (cons handle lista2))
-		
 		(setq lista (cons startpoint lista))
 		(setq lista (cons endpoint lista))
 		
@@ -106,13 +99,7 @@
 		
 		(setq listaenames2 (cons pl listaenames2))
 		
-		(setq listaenames2length (length listaenames2))
-		;(setq lista2length (length lista2))
-		;(if (= listaenameslength (/ lista2length 2)) (print "ok")(print "n"))
-		
-		;(print lista)
-		;(print lista2)
-	
+		(setq listaenames2length (length listaenames2))	
 		
 		(setq cont (+ cont 1))
 	
@@ -175,7 +162,7 @@
 							(setq grupo (cons start grupo))
 							;(print grupo)
 							(setq p (nth cont2 listaenames))
-							(setq grupoexemplo (cons p grupoexemplo))
+							(setq grupoenames (cons p grupoenames))
 
 						)
 						)
@@ -204,7 +191,7 @@
 		
 		(setq grupolength (length grupo))
 		(setq listastartpointlength (length listastartpoint))
-		(setq lengthgrupoexemplo (length grupoexemplo))
+		(setq lengthgrupoenames(length grupoenames))
 		
 		(setq contadorwhile1 0)
 		(setq contadorwhile2 0)
@@ -224,7 +211,7 @@
 
 		(setq ve (nth contv grupo))
 		
-		(setq enameve (nth contv grupoexemplo))
+		(setq enameve (nth contv grupoenames))
 		
 		(setq contc 0)
 		
@@ -255,135 +242,10 @@
 					
 					(setq nome "reducao ")
 					
+						(setq grupoi (cons enameve grupoi))
+						(setq grupoi (cons enamece grupoi))
+						(print grupoi)
 						
-						(defun sla()
-						
-						
-							(setq starts (getpropertyvalue enameve "startpoint"))
-							(setq ends (getpropertyvalue enameve "endpoint"))
-							(setq startc (getpropertyvalue enamece "startpoint"))
-							(setq endc (getpropertyvalue enamece "endpoint"))
-							
-							;(print starts)
-							;(print ends)
-							;(print startc)
-							;(print endc)
-							
-							;(if (= ends startc)(print "ok"))
-							
-							(cond
-								((= (strcat (rtos (nth 0 starts)) (rtos(nth 1 starts))) (strcat (rtos (nth 0 endc)) (rtos(nth 1 endc))))
-								(progn
-									(command "dimang" "" starts ends startc "1" "")
-									(setq dang (entlast))
-									(setq obj (vlax-ename->vla-object dang))
-									(setq rad (vlax-get-property obj 'Measurement))
-									(setq angulo (angtos rad 0))
-									(print angulo)
-									(entdel dang)
-								)
-								)
-								
-								((= (strcat (rtos (nth 0 ends)) (rtos(nth 1 ends))) (strcat (rtos (nth 0 endc)) (rtos(nth 1 endc))))
-								(progn
-									(command "dimang" "" ends starts startc "1" "")
-									(setq dang (entlast))
-									(setq obj (vlax-ename->vla-object dang))
-									(setq rad (vlax-get-property obj 'Measurement))
-									(setq angulo (angtos rad 0))
-									(print angulo)
-									(entdel dang)
-								)
-								)
-								
-								((= (strcat (rtos (nth 0 ends)) (rtos(nth 1 ends))) (strcat (rtos (nth 0 startc)) (rtos(nth 1 startc))))
-								(progn
-									(command "dimang" "" startc starts endc "1" "")
-									(setq dang (entlast))
-									(setq obj (vlax-ename->vla-object dang))
-									(setq rad (vlax-get-property obj 'Measurement))
-									(setq angulo (angtos rad 0))
-									(print angulo)
-									(entdel dang)
-								)
-								)
-								
-								((= (strcat (rtos (nth 0 starts)) (rtos(nth 1 starts))) (strcat (rtos (nth 0 startc)) (rtos(nth 1 startc)))) 
-								(progn
-									(command "dimang" "" starts ends endc "1" "")
-									(setq dang (entlast))
-									(setq obj (vlax-ename->vla-object dang))
-									(setq rad (vlax-get-property obj 'Measurement))
-									(setq angulo (angtos ( 0))
-									(print angulo)
-									(entdel dang)
-								)
-								)
-							)
-							)
-							
-							(cond
-								((= (atoi angulo) 180)
-								(progn
-								
-								
-								(setq objce (vlax-ename->vla-object enamece))
-								(setq layce (vlax-get-property objce 'Layer))
-								(setq tipoce (substr layce 1 2))
-								(setq especce (substr layce 3 9))
-								(setq dnce (distof (substr layce 3 3)))
-								
-								
-								(setq objve (vlax-ename->vla-object enameve))
-								(setq layve (vlax-get-property objve 'Layer))
-								(setq tipove (substr layve 1 2))
-								(setq especve (substr layve 3 9))
-								(setq dnve (distof (substr layve 3 3)))
-								
-									(if (> dnce dnve)
-									(progn
-										(setq condicao (strcat nome layce " " layve " " angulo))
-									)(setq condicao (strcat nome layve " " layce " " angulo))
-									)
-									
-								)
-								)
-								
-								((/= (atoi angulo) 180)
-								(progn
-									
-									;(setq condicao (strcat "curva " angulo))
-									
-									(setq objce (vlax-ename->vla-object enamece))
-									(setq layce (vlax-get-property objce 'Layer))
-									(setq tipoce (substr layce 1 2))
-									(setq especce (substr layce 3 9))
-									(setq dnce (distof (substr layce 3 3)))
-									
-									
-									(setq objve (vlax-ename->vla-object enameve))
-									(setq layve (vlax-get-property objve 'Layer))
-									(setq tipove (substr layve 1 2))
-									(setq especve (substr layve 3 9))
-									(setq dnve (distof (substr layve 3 3)))
-									
-										(if (> dnce dnve)
-										(progn
-											(setq condicao (strcat nome layce " " angulo))
-										)(setq condicao (strcat nome layve " " angulo))
-										)
-								
-
-								
-								
-								
-								)
-								)
-								
-							)
-							
-							
-						)
 							;(sla)
 							
 							;(print condicao)
@@ -405,43 +267,184 @@
 			
 		)
 		
-		(print contre)
-		
-		(cond
-			((= contre 1)
-				(progn
-					;(funcaodefinicao)
-					(setq nome "reducao ")
-					(sla)
-					(texto)
-				
-				)
-			)
-			((= contre 2)
-			(progn
-				 
-				(setq nome "te ")
-				(sla)
-				(texto)
-			)
-			
-			)
-		)
-		
 		
 		(setq contv (+ contv 1))
 	)
-	
-	
-	
-	
-	(setq contadorderepeticoes 0)
 
 
 
 
-	
+(setq contwi 0)
+(setq conti 0)
+(setq grupoilength (length grupoi))
+
+
+
+(defun sla()
+
+	(while (< contwi grupoilength)
 		
+		(setq starts (getpropertyvalue (nth conti grupoi) "startpoint"))
+		(setq ends (getpropertyvalue (nth conti grupoi) "endpoint"))
+		(setq startc (getpropertyvalue (nth (+ conti 1) grupoi) "startpoint"))
+		(setq endc (getpropertyvalue (nth (+ conti 1) grupoi) "endpoint"))
+
+		(print starts)
+		(print ends)
+		(print startc)
+		(print endc)
+		
+		;(if (= ends startc)(print "ok"))
+		
+		(cond
+			((= (strcat (rtos (nth 0 starts)) (rtos(nth 1 starts))) (strcat (rtos (nth 0 endc)) (rtos(nth 1 endc))))
+			(progn
+				(command "dimang" "" starts ends startc "1" "")
+				(setq dang (entlast))
+				(setq obj (vlax-ename->vla-object dang))
+				(setq rad (vlax-get-property obj 'Measurement))
+				(setq angulo (angtos rad 0))
+				;(print angulo)
+				;(entdel dang)
+			)
+			)
+			
+			((= (strcat (rtos (nth 0 ends)) (rtos(nth 1 ends))) (strcat (rtos (nth 0 endc)) (rtos(nth 1 endc))))
+			(progn
+				(command "dimang" "" ends starts startc "1" "")
+				(setq dang (entlast))
+				(setq obj (vlax-ename->vla-object dang))
+				(setq rad (vlax-get-property obj 'Measurement))
+				(setq angulo (angtos rad 0))
+				;(print angulo)
+				;(entdel dang)
+			)
+			)
+			
+			((= (strcat (rtos (nth 0 ends)) (rtos(nth 1 ends))) (strcat (rtos (nth 0 startc)) (rtos(nth 1 startc))))
+			(progn
+				(command "dimang" "" startc starts endc "1" "")
+				(setq dang (entlast))
+				(setq obj (vlax-ename->vla-object dang))
+				(setq rad (vlax-get-property obj 'Measurement))
+				(setq angulo (angtos rad 0))
+				;(print angulo)
+				;(entdel dang)
+			)
+			)
+			
+			((= (strcat (rtos (nth 0 starts)) (rtos(nth 1 starts))) (strcat (rtos (nth 0 startc)) (rtos(nth 1 startc)))) 
+			(progn
+				(command "dimang" "" starts ends endc "1" "")
+				(setq dang (entlast))
+				(setq obj (vlax-ename->vla-object dang))
+				(setq rad (vlax-get-property obj 'Measurement))
+				(setq angulo (angtos ( 0))
+				;(print angulo)
+				;(entdel dang)
+			)
+			)
+		)
+		)
+		
+		(print angulo)
+		
+		(cond
+			((= (atoi angulo) 180)
+			(progn
+			
+			
+			(setq objce (vlax-ename->vla-object enamece))
+			(setq layce (vlax-get-property objce 'Layer))
+			(setq tipoce (substr layce 1 2))
+			(setq especce (substr layce 3 9))
+			(setq dnce (distof (substr layce 3 3)))
+			
+			
+			(setq objve (vlax-ename->vla-object enameve))
+			(setq layve (vlax-get-property objve 'Layer))
+			(setq tipove (substr layve 1 2))
+			(setq especve (substr layve 3 9))
+			(setq dnve (distof (substr layve 3 3)))
+			
+				(if (> dnce dnve)
+				(progn
+					(setq condicao (strcat nome layce " " layve " " angulo))
+				)(setq condicao (strcat nome layve " " layce " " angulo))
+				)
+				
+			)
+			)
+			
+			((/= (atoi angulo) 180)
+			(progn
+				
+				;(setq condicao (strcat "curva " angulo))
+				
+				(setq objce (vlax-ename->vla-object enamece))
+				(setq layce (vlax-get-property objce 'Layer))
+				(setq tipoce (substr layce 1 2))
+				(setq especce (substr layce 3 9))
+				(setq dnce (distof (substr layce 3 3)))
+				
+				
+				(setq objve (vlax-ename->vla-object enameve))
+				(setq layve (vlax-get-property objve 'Layer))
+				(setq tipove (substr layve 1 2))
+				(setq especve (substr layve 3 9))
+				(setq dnve (distof (substr layve 3 3)))
+				
+					(if (> dnce dnve)
+					(progn
+						(setq condicao (strcat nome layce " " angulo))
+					)(setq condicao (strcat nome layve " " angulo))
+					)
+			
+
+			
+			
+			
+			)
+			)
+			
+		)
+		
+		(setq conti (+ contwi 2))
+		(setq contwi (+ contwi 1))
+		
+	)
+	
+)
+
+;(sla)
+
+
+(print contre)
+
+(cond
+	((= contre 1)
+		(progn
+			;(funcaodefinicao)
+			(setq nome "reducao ")
+			(sla)
+			(texto)
+		
+		)
+	)
+	((= contre 2)
+	(progn
+		 
+		(setq nome "te ")
+		(sla)
+		(texto)
+	)
+	
+	)
+)
+	
+	
+(setq contadorderepeticoes 0)
+
 
 (princ)
 )
